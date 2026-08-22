@@ -27,6 +27,7 @@ public class Profile {
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
     
+    
 	public Integer getId() {
 		return id;
 	}

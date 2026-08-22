@@ -53,6 +53,7 @@ public class Job {
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+    
 	public Integer getId() {
 		return id;
 	}
