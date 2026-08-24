@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class JobMatch {
@@ -20,8 +21,10 @@ public class JobMatch {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    Job job;
+	@ManyToOne
+    Jobs job;
 
+	@ManyToOne
     Profile profile;
 
     BigDecimal matchScore;
@@ -50,10 +53,10 @@ public class JobMatch {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Job getJob() {
+	public Jobs getJob() {
 		return job;
 	}
-	public void setJob(Job job) {
+	public void setJob(Jobs job) {
 		this.job = job;
 	}
 	public Profile getProfile() {

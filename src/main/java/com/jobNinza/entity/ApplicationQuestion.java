@@ -5,25 +5,25 @@ import java.time.LocalDateTime;
 import com.jobNinza.enums.AnsweredBy;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 @Entity
 public class ApplicationQuestion {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-
+	@ManyToOne
     Application application;
-
     String question;
     String answer;
 
-//	    QuestionType questionType;
-
+    @Enumerated(EnumType.STRING)
     AnsweredBy answeredBy;
-
     boolean required;
 
     LocalDateTime createdAt;

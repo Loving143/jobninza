@@ -3,7 +3,6 @@ package com.jobNinza.serviceImpl;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,9 +14,10 @@ import com.jobNinza.exception.BadRequestException;
 import com.jobNinza.repository.ResumeRepository;
 import com.jobNinza.repository.UserRepository;
 import com.jobNinza.service.FileStorageService;
+import com.jobNinza.service.ResumeExtractorService;
 import com.jobNinza.service.ResumeService;
 import com.jobNinza.util.SnowflakeIdGenerator;
-import org.springframework.core.io.Resource;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -32,50 +32,29 @@ public class ResumeServiceImpl implements ResumeService{
     private UserRepository userRepository;
 	@Autowired
     private SnowflakeIdGenerator idGenerator;
+	@Autowired
+	private ResumeExtractorService resumeExtractorService;
 
-	public Resume uploadResume(MultipartFile file, long userId) {
+	@Override
 
-        // 1. Validate uploaded file
+	public Resume uploadResume(MultipartFile file,String email) {
         validateFile(file);
-
-        // 2. Find the user
-        Users user = userRepository.findById(userId)
-                .orElseThrow(() ->
+        Users user = userRepository.findByEmail(email).orElseThrow(() ->
                         new BadRequestException("User not found"));
-
-        // 3. Generate unique Resume ID
         Long resumeId = idGenerator.nextId();
-
-        // 4. Extract original file name
         String originalFileName = file.getOriginalFilename();
 
-        if (originalFileName == null ||
-                originalFileName.isBlank()) {
-
-            throw new BadRequestException(
-                    "Invalid file name");
+        if (originalFileName == null || originalFileName.isBlank()) {
+        	throw new BadRequestException("Invalid file name");
         }
-
-        originalFileName =
-                StringUtils.cleanPath(originalFileName);
-
-        // 5. Determine file extension
-        String extension =
-                getFileExtension(originalFileName);
-
-        // 6. Generate server-side storage filename
-        String storageFileName =
-                resumeId + extension;
+        originalFileName = StringUtils.cleanPath(originalFileName);
+        String extension = getFileExtension(originalFileName);
+        String storageFileName = resumeId + extension;
 
         String filePath = null;
 
         try {
-
-            // 7. Store physical file
-            filePath = fileStorageService.store(
-                    file,
-                    storageFileName
-            );
+            filePath = fileStorageService.store(file,storageFileName);
 
             // 8. Create Resume entity
             Resume resume = new Resume();
@@ -94,6 +73,8 @@ public class ResumeServiceImpl implements ResumeService{
             resume.setCreatedAt(now);
             resume.setUpdatedAt(now);
 
+            String text = resumeExtractorService.extractText(file);
+            System.out.println("Extracted text: " + text);
             // 9. Save metadata
             return resumeRepository.save(resume);
 
@@ -117,12 +98,11 @@ public class ResumeServiceImpl implements ResumeService{
     private void validateFile(MultipartFile file) {
 
         if (file == null || file.isEmpty()) {
-            throw new BadRequestException(
-                    "Resume file cannot be empty");
+            throw new BadRequestException("Resume file cannot be empty");
         }
 
-        // 5 MB limit
-        long maxFileSize = 5 * 1024 * 1024;
+        // 10 MB limit
+        long maxFileSize = 10 * 1024 * 1024;
 
         if (file.getSize() > maxFileSize) {
             throw new BadRequestException(

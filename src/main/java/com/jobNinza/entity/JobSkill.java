@@ -1,11 +1,14 @@
 package com.jobNinza.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class JobSkill {
@@ -13,15 +16,17 @@ public class JobSkill {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
-    Job job;
+	@ManyToOne(fetch=FetchType.LAZY)
+    private Jobs job;
 
+	@ManyToOne(fetch=FetchType.LAZY)
     Skill skill;
 
     boolean required;
 
     BigDecimal minimumExperience;
 
-	public void setJob(Job job) {
+	public void setJob(Jobs job) {
 		this.job = job;
 	}
 
@@ -47,6 +52,18 @@ public class JobSkill {
 
 	public void setMinimumExperience(BigDecimal minimumExperience) {
 		this.minimumExperience = minimumExperience;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Jobs getJob() {
+		return job;
 	}
 
 //    SkillImportance skillImportance;

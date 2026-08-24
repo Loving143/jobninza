@@ -6,6 +6,6 @@ import com.jobNinza.entity.Resume;
 
 public interface ResumeService {
 
-	Resume uploadResume(MultipartFile file, long l);
+	Resume uploadResume(MultipartFile file, String email);
 
 }

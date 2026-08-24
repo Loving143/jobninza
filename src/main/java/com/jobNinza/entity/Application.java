@@ -2,35 +2,45 @@ package com.jobNinza.entity;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.jobNinza.enums.ApplicationMethod;
 import com.jobNinza.enums.ApplicationStatus;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 @Entity
 public class Application {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Integer id;
 
+	@ManyToOne
     Users user;
+    
+    @OneToMany(fetch = FetchType.LAZY)
+    List<Jobs> job=new ArrayList();
 
-    Job job;
-
+    @ManyToOne
     Resume resume;
 
+    @Enumerated(EnumType.STRING)
     ApplicationStatus status;
 
     String applicationUrl;
 
     Instant appliedAt;
 
+    @Enumerated(EnumType.STRING)
     ApplicationMethod applicationMethod;
-
-//    AutomationStatus automationStatus;
 
     String notes;
 
@@ -48,12 +58,6 @@ public class Application {
 	public void setUser(Users user) {
 		this.user = user;
 	}
-	public Job getJob() {
-		return job;
-	}
-	public void setJob(Job job) {
-		this.job = job;
-	}
 	public Resume getResume() {
 		return resume;
 	}
@@ -68,6 +72,12 @@ public class Application {
 	}
 	public String getApplicationUrl() {
 		return applicationUrl;
+	}
+	public List<Jobs> getJob() {
+		return job;
+	}
+	public void setJob(List<Jobs> job) {
+		this.job = job;
 	}
 	public void setApplicationUrl(String applicationUrl) {
 		this.applicationUrl = applicationUrl;

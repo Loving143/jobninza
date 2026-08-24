@@ -1,11 +1,17 @@
 package com.jobNinza.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.jobNinza.request.SignupRequest;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Users {
@@ -21,6 +27,13 @@ public class Users {
     boolean enabled;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Roles> roles = new ArrayList<>();
+    
+	public Users(SignupRequest req) {
+		this.email = req.getEmail();
+		this.createdAt = LocalDateTime.now();
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -74,6 +87,16 @@ public class Users {
 	}
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public List<Roles> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Roles> roles) {
+		this.roles = roles;
+	}
+	public Users() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 }

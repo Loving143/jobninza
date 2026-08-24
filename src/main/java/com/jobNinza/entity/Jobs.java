@@ -3,24 +3,34 @@ package com.jobNinza.entity;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.jobNinza.enums.EmploymentType;
 import com.jobNinza.enums.RemoteType;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
 @Entity
-public class Job {
+public class Jobs {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    Company company;
+    private Company company;
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<JobSkill> jobSkills=new ArrayList<>();
 
     String externalJobId;
 
@@ -30,8 +40,10 @@ public class Job {
     String location;
     String country;
 
+    @Enumerated(EnumType.STRING)
     RemoteType remoteType;
 
+    @Enumerated(EnumType.STRING)
     EmploymentType employmentType;
 
     BigDecimal experienceMin;
@@ -179,6 +191,12 @@ public class Job {
 	}
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public List<JobSkill> getJobSkills() {
+		return jobSkills;
+	}
+	public void setJobSkills(List<JobSkill> jobSkills) {
+		this.jobSkills = jobSkills;
 	}
 
 }

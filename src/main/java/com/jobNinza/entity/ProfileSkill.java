@@ -18,6 +18,7 @@ public class ProfileSkill {
 	@ManyToOne(fetch = FetchType.LAZY)
     private Profile profile;
 
+	@ManyToOne(fetch = FetchType.LAZY)
     Skill skill;
 
     BigDecimal experienceYears;
