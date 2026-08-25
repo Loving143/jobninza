@@ -1,5 +1,6 @@
 package com.jobNinza.controller;
 
+import com.jobNinza.util.ResumeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class ResumeController {
 	            @RequestParam("file") MultipartFile file) {
 		UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 		String email = authToken.getName();
-	        Resume resume = resumeService.uploadResume(file,email);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>("1","Resume uploaded successfully"));
+		ResumeData resume = resumeService.uploadResume(file,email);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>("1",resume));
 	    }
 
 }

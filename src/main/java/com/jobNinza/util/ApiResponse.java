@@ -18,7 +18,7 @@ public class ApiResponse<T> {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public ApiResponse(T data, String status) {
+	public ApiResponse(String status,T data) {
 		super();
 		this.data = data;
 		this.status = status;

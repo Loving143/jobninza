@@ -2,6 +2,8 @@ package com.jobNinza.serviceImpl;
 
 import java.time.LocalDateTime;
 
+import com.jobNinza.service.ResumeAIParserService;
+import com.jobNinza.util.ResumeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,10 +36,12 @@ public class ResumeServiceImpl implements ResumeService{
     private SnowflakeIdGenerator idGenerator;
 	@Autowired
 	private ResumeExtractorService resumeExtractorService;
+    @Autowired
+    private ResumeAIParserService resumeAIParserService;
 
 	@Override
 
-	public Resume uploadResume(MultipartFile file,String email) {
+	public ResumeData uploadResume(MultipartFile file,String email) {
         validateFile(file);
         Users user = userRepository.findByEmail(email).orElseThrow(() ->
                         new BadRequestException("User not found"));
@@ -74,9 +78,11 @@ public class ResumeServiceImpl implements ResumeService{
             resume.setUpdatedAt(now);
 
             String text = resumeExtractorService.extractText(file);
+            ResumeData data = resumeAIParserService.parseResume(text);
             System.out.println("Extracted text: " + text);
             // 9. Save metadata
-            return resumeRepository.save(resume);
+            resumeRepository.save(resume);
+            return data;
 
         } catch (Exception ex) {
 
