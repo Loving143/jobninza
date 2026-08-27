@@ -85,13 +85,6 @@ public class ResumeServiceImpl implements ResumeService{
             return data;
 
         } catch (Exception ex) {
-
-            /*
-             * File was successfully stored but DB
-             * operation failed.
-             *
-             * Delete the file to avoid an orphan file.
-             */
             if (filePath != null) {
                 fileStorageService.delete(filePath);
             }
