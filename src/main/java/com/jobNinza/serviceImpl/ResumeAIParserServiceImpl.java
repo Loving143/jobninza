@@ -26,7 +26,9 @@ public class ResumeAIParserServiceImpl implements ResumeAIParserService {
         String prompt = buildPrompt(resumeText);
         OllamaResponse response=null;
         try {
-             response = restClient.post().uri("/api/chat").body(Map.of("model", "gemma3:4b","messages", List.of(Map.of(
+             response = restClient.post().uri("/api/chat").body(Map.of("model",
+                             "gemma3:4b","messages",
+                             List.of(Map.of(
                                             "role", "user",
                                             "content", prompt
                                     )

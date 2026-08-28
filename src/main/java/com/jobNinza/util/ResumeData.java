@@ -14,9 +14,9 @@ public class ResumeData {
 
     private List<Education> education;
 
-    private List<Experience> experience;
+    private List<ExperienceDto> experience;
 
-    private List<Project> projects;
+    private List<ProjectDto> projects;
 
     public String getName() {
         return name;
@@ -74,19 +74,19 @@ public class ResumeData {
         this.education = education;
     }
 
-    public List<Experience> getExperience() {
+    public List<ExperienceDto> getExperience() {
         return experience;
     }
 
-    public void setExperience(List<Experience> experience) {
+    public void setExperience(List<ExperienceDto> experience) {
         this.experience = experience;
     }
 
-    public List<Project> getProjects() {
+    public List<ProjectDto> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(List<ProjectDto> projects) {
         this.projects = projects;
     }
 // getters/setters

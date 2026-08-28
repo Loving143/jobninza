@@ -15,16 +15,12 @@ public class JobSkill {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-
 	@ManyToOne(fetch=FetchType.LAZY)
     private Jobs job;
-
 	@ManyToOne(fetch=FetchType.LAZY)
-    Skill skill;
-
-    boolean required;
-
-    BigDecimal minimumExperience;
+    private Skill skill;
+	boolean required;
+	BigDecimal minimumExperience;
 
 	public void setJob(Jobs job) {
 		this.job = job;

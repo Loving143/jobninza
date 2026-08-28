@@ -7,7 +7,6 @@ public class ExperienceDto {
     private String startDate;
     private String endDate;
     private String description;
-    
 
     public String getCompany() {
         return company;
@@ -48,5 +47,4 @@ public class ExperienceDto {
     public void setDescription(String description) {
         this.description = description;
     }
-// getters/setters
 }
