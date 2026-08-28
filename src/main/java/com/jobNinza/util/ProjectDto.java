@@ -2,7 +2,7 @@ package com.jobNinza.util;
 
 import java.util.List;
 
-public class Project {
+public class ProjectDto {
     private String name;
     private String description;
     private List<String> technologies;

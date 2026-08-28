@@ -1,5 +1,9 @@
 package com.jobNinza.controller;
 
+import com.jobNinza.entity.Profile;
+import com.jobNinza.entity.ProfileSkill;
+import com.jobNinza.entity.Skill;
+import com.jobNinza.service.ProfileService;
 import com.jobNinza.util.ResumeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,11 +21,16 @@ import com.jobNinza.entity.Resume;
 import com.jobNinza.service.ResumeService;
 import com.jobNinza.util.ApiResponse;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/resume")
 public class ResumeController {
 	@Autowired
 	private ResumeService resumeService;
+	@Autowired
+	private ProfileService profileService;
 	
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/uploadResume")
@@ -30,7 +39,15 @@ public class ResumeController {
 		UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 		String email = authToken.getName();
 		ResumeData resume = resumeService.uploadResume(file,email);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>("1",resume));
+		Profile profile = new Profile(resume);
+		List<Skill> skills = resume.getSkills().stream().map(Skill::new).collect(Collectors.toList());
+		for(Skill skill:skills) {
+			ProfileSkill profileSkill = new ProfileSkill();
+			profileSkill.setProfile(profile);
+			profileSkill.setSkill(skill);
+		}
+		profileService.saveProfile(profile);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>("1",resume));
 	    }
 
 }

@@ -1,12 +1,30 @@
-package com.jobNinza.util;
+package com.jobNinza.entity;
 
+
+import com.jobNinza.util.ExperienceDto;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Experience {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String company;
     private String designation;
     private String startDate;
     private String endDate;
     private String description;
+
+    public Experience(ExperienceDto ex){
+        this.company = ex.getCompany();
+        this.description = ex.getDescription();
+        this.endDate = ex.getEndDate();
+        this.startDate = ex.getStartDate();
+        this.designation = ex.getDesignation();
+    }
 
     public String getCompany() {
         return company;
@@ -47,5 +65,12 @@ public class Experience {
     public void setDescription(String description) {
         this.description = description;
     }
-// getters/setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

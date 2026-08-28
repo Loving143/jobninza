@@ -8,5 +8,4 @@ import com.jobNinza.entity.Resume;
 public interface ResumeService {
 
 	ResumeData uploadResume(MultipartFile file, String email);
-
 }

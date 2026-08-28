@@ -27,6 +27,11 @@ public class Skill {
 
     LocalDateTime createdAt;
 
+	public Skill(String skill){
+		this.name = skill;
+		this.createdAt = LocalDateTime.now();
+	}
+
 	public Integer getId() {
 		return id;
 	}
