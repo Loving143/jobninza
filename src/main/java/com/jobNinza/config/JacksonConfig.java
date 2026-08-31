@@ -18,4 +18,9 @@ public class JacksonConfig {
                 .baseUrl("http://localhost:11434")
                 .build();
     }
+    
+    @Bean
+    public RestClient.Builder restClientBuilder() {
+        return RestClient.builder();
+    }
 }

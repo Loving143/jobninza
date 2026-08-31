@@ -21,8 +21,8 @@ public class JobMatch {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-	@ManyToOne
-    Jobs job;
+//	@ManyToOne
+//    Jobs job;
 
 	@ManyToOne
     Profile profile;
@@ -52,12 +52,6 @@ public class JobMatch {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	public Jobs getJob() {
-		return job;
-	}
-	public void setJob(Jobs job) {
-		this.job = job;
 	}
 	public Profile getProfile() {
 		return profile;

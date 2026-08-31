@@ -38,7 +38,7 @@ public class Profile {
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Skill>skills = new ArrayList<>();
 
-	public Profile(ResumeData resume) {
+	public Profile(ResumeData resume) { 
 		UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 		this.createdAt = LocalDateTime.now();
 		this.currentCompany = resume.getExperience().get(0).getCompany();
